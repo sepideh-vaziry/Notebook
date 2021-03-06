@@ -1,7 +1,6 @@
 package com.sepideh.notebook.module.user.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerator;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.sepideh.notebook.module.content.model.Content;
 import org.hibernate.annotations.CreationTimestamp;
