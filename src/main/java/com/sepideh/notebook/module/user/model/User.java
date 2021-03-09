@@ -2,17 +2,19 @@ package com.sepideh.notebook.module.user.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.sepideh.notebook.enums.Role;
 import com.sepideh.notebook.module.content.model.Content;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +34,16 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Content> contents;
+
+    private boolean enabled = true;
+
+    @ElementCollection(targetClass = Role.class)
+    @CollectionTable(
+            name = "authorities",
+            joinColumns = @JoinColumn(name = "username", referencedColumnName = "username")
+    )
+    @Enumerated(EnumType.STRING)
+    private List<Role> roles;
 
     // Constructor *****************************************************************************************************
     public User() { }
@@ -91,5 +103,21 @@ public class User {
 
     public void setContents(List<Content> contents) {
         this.contents = contents;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }
