@@ -1,6 +1,6 @@
-package com.sepideh.notebook.module.mediafile.repository;
+package com.sepideh.notebook.repository;
 
-import com.sepideh.notebook.module.mediafile.model.MediaFile;
+import com.sepideh.notebook.domain.MediaFile;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

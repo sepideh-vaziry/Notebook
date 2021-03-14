@@ -1,4 +1,4 @@
-package com.sepideh.notebook.module.mediafile.model;
+package com.sepideh.notebook.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;

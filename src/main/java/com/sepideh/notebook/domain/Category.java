@@ -1,4 +1,4 @@
-package com.sepideh.notebook.module.content.model;
+package com.sepideh.notebook.domain;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;

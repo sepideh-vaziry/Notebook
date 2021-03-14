@@ -1,6 +1,6 @@
-package com.sepideh.notebook.module.content.repository;
+package com.sepideh.notebook.repository;
 
-import com.sepideh.notebook.module.content.model.Category;
+import com.sepideh.notebook.domain.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
-package com.sepideh.notebook.module.user.repository;
+package com.sepideh.notebook.repository;
 
-import com.sepideh.notebook.module.user.model.User;
+import com.sepideh.notebook.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

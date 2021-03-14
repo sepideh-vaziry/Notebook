@@ -1,7 +1,7 @@
-package com.sepideh.notebook.module.content.controller;
+package com.sepideh.notebook.controller;
 
-import com.sepideh.notebook.module.content.model.Content;
-import com.sepideh.notebook.module.content.service.ContentService;
+import com.sepideh.notebook.domain.User;
+import com.sepideh.notebook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,27 +11,27 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/content")
-public class ContentController {
+@RequestMapping("/user")
+public class UserController {
 
-    private final ContentService contentService;
+    private final UserService userService;
 
     // Constructor *****************************************************************************************************
     @Autowired
-    public ContentController(ContentService contentService) {
-        this.contentService = contentService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     //******************************************************************************************************************
     @RequestMapping(value = {"", "/"}, method = RequestMethod.POST)
-    public Content createContent(@RequestBody Content content) {
-        return contentService.createContent(content);
+    public User registerUser(@RequestBody User user) {
+        return userService.registerUser(user);
     }
 
     //******************************************************************************************************************
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
-    public List<Content> getAllContent() {
-        return contentService.getAllContent();
+    public List<User> getAllUser() {
+        return userService.getAllUser();
     }
 
 }

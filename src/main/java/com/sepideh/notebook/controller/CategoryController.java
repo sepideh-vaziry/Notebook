@@ -1,8 +1,7 @@
-package com.sepideh.notebook.module.user.controller;
+package com.sepideh.notebook.controller;
 
-import com.sepideh.notebook.module.user.model.User;
-import com.sepideh.notebook.module.user.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sepideh.notebook.domain.Category;
+import com.sepideh.notebook.service.CategoryService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,27 +10,26 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/category")
+public class CategoryController {
 
-    private final UserService userService;
+    private final CategoryService categoryService;
 
     // Constructor *****************************************************************************************************
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
     //******************************************************************************************************************
     @RequestMapping(value = {"", "/"}, method = RequestMethod.POST)
-    public User registerUser(@RequestBody User user) {
-        return userService.registerUser(user);
+    public Category createCategory(@RequestBody Category category) {
+        return categoryService.createCategory(category);
     }
 
     //******************************************************************************************************************
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
-    public List<User> getAllUser() {
-        return userService.getAllUser();
+    public List<Category> getAllCategory() {
+        return categoryService.getAllCategory();
     }
 
 }

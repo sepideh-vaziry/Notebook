@@ -1,12 +1,11 @@
-package com.sepideh.notebook.module.mediafile.service;
+package com.sepideh.notebook.service;
 
-import com.sepideh.notebook.module.mediafile.model.MediaFile;
-import com.sepideh.notebook.module.mediafile.repository.MediaFileRepository;
+import com.sepideh.notebook.domain.MediaFile;
+import com.sepideh.notebook.repository.MediaFileRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;

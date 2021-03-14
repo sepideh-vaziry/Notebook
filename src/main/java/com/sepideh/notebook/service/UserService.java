@@ -1,7 +1,7 @@
-package com.sepideh.notebook.module.user.service;
+package com.sepideh.notebook.service;
 
-import com.sepideh.notebook.module.user.model.User;
-import com.sepideh.notebook.module.user.repository.UserRepository;
+import com.sepideh.notebook.domain.User;
+import com.sepideh.notebook.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

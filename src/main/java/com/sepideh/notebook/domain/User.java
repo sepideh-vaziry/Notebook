@@ -1,9 +1,9 @@
-package com.sepideh.notebook.module.user.model;
+package com.sepideh.notebook.domain;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.sepideh.notebook.enums.Role;
-import com.sepideh.notebook.module.content.model.Content;
+import com.sepideh.notebook.domain.Content;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 

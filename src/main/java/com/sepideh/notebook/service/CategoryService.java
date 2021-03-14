@@ -1,7 +1,7 @@
-package com.sepideh.notebook.module.content.service;
+package com.sepideh.notebook.service;
 
-import com.sepideh.notebook.module.content.model.Category;
-import com.sepideh.notebook.module.content.repository.CategoryRepository;
+import com.sepideh.notebook.domain.Category;
+import com.sepideh.notebook.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
