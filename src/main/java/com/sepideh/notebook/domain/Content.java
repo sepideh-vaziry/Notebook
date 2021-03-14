@@ -6,7 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -22,11 +22,11 @@ public class Content {
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+    private Timestamp createdAt;
 
     @UpdateTimestamp
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private Timestamp updatedAt;
 
     @ManyToOne
     private User user;
@@ -38,10 +38,20 @@ public class Content {
     // Constructor *****************************************************************************************************
     public Content() { }
 
-    public Content(Long id, String title, String description, User user, List<Category> categories) {
+    public Content(
+            Long id,
+            String title,
+            String description,
+            Timestamp createdAt,
+            Timestamp updatedAt,
+            User user,
+            List<Category> categories
+    ) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.user = user;
         this.categories = categories;
     }
@@ -71,19 +81,19 @@ public class Content {
         this.description = description;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
 

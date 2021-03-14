@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("api/user")
 public class UserController {
 
     private final UserService userService;
@@ -23,7 +23,7 @@ public class UserController {
     }
 
     //******************************************************************************************************************
-    @RequestMapping(value = {"", "/"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/register", "/register/"}, method = RequestMethod.POST)
     public User registerUser(@RequestBody User user) {
         return userService.registerUser(user);
     }
