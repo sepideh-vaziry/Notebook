@@ -77,7 +77,7 @@ public class JwtUtil {
 
     //******************************************************************************************************************
     /**
-     * Retrieve any information from token we will need the secret key
+     * Retrieve any information from token that requires the secret key
      */
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
