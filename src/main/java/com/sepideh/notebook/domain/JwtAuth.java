@@ -1,4 +1,4 @@
-package com.sepideh.notebook.jwt;
+package com.sepideh.notebook.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

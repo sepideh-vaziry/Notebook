@@ -3,16 +3,13 @@ package com.sepideh.notebook.service;
 import com.sepideh.notebook.domain.User;
 import com.sepideh.notebook.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -33,11 +30,5 @@ public class UserService implements UserDetailsService {
     //******************************************************************************************************************
     public List<User> getAllUser() {
         return userRepository.findAll();
-    }
-
-    // Override methods ************************************************************************************************
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username);
     }
 }
