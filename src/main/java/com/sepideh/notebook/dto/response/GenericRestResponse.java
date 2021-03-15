@@ -18,7 +18,7 @@ public class GenericRestResponse<T> {
     private int pageSize;
     private int pageNumber;
     private int totalPages;
-    private Long count;
+    private long count;
 
     // Constructor *****************************************************************************************************
     public GenericRestResponse() { }

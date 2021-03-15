@@ -4,6 +4,8 @@ import com.sepideh.notebook.domain.User;
 import com.sepideh.notebook.enums.Role;
 import com.sepideh.notebook.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +39,7 @@ public class UserService {
     }
 
     //******************************************************************************************************************
-    public List<User> getAllUser() {
-        return userRepository.findAll();
+    public Page<User> getAllUser(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 }
