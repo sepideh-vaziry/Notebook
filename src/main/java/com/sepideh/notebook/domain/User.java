@@ -3,6 +3,10 @@ package com.sepideh.notebook.domain;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.sepideh.notebook.enums.Role;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,6 +19,10 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User implements Serializable, UserDetails {
 
@@ -44,29 +52,6 @@ public class User implements Serializable, UserDetails {
     @Enumerated(EnumType.STRING)
     private List<Role> roles;
 
-    // Constructor *****************************************************************************************************
-    public User() { }
-
-    public User(
-            Long id,
-            String username,
-            String password,
-            Timestamp createdAt,
-            Timestamp updatedAt,
-            List<Content> contents,
-            boolean enabled,
-            List<Role> roles
-    ) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.contents = contents;
-        this.enabled = enabled;
-        this.roles = roles;
-    }
-
     // Override methods ************************************************************************************************
     @Override
     public boolean isAccountNonExpired() {
@@ -88,68 +73,4 @@ public class User implements Serializable, UserDetails {
         return roles;
     }
 
-    // Getter and setter ***********************************************************************************************
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createAt) {
-        this.createdAt = createAt;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updateAt) {
-        this.updatedAt = updateAt;
-    }
-
-    public List<Content> getContents() {
-        return contents;
-    }
-
-    public void setContents(List<Content> contents) {
-        this.contents = contents;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
 }

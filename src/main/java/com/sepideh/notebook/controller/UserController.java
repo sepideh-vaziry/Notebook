@@ -3,10 +3,7 @@ package com.sepideh.notebook.controller;
 import com.sepideh.notebook.domain.User;
 import com.sepideh.notebook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,8 +26,9 @@ public class UserController {
     }
 
     //******************************************************************************************************************
-    @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
-    public List<User> getAllUser() {
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public List<User> getAllUser(@RequestParam("pageSize") int pageSize, @RequestParam("pageNumber") int pageNumber) {
+
         return userService.getAllUser();
     }
 

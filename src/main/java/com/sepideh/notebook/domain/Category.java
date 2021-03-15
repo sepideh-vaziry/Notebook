@@ -2,11 +2,19 @@ package com.sepideh.notebook.domain;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Content.class)
 public class Category {
 
@@ -18,38 +26,4 @@ public class Category {
 
     @ManyToMany(mappedBy = "categories")
     private List<Content> contents;
-
-    // Constructor *****************************************************************************************************
-    public Category() { }
-
-    public Category(Long id, String title, List<Content> contents) {
-        this.id = id;
-        this.title = title;
-        this.contents = contents;
-    }
-
-    //******************************************************************************************************************
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public List<Content> getContents() {
-        return contents;
-    }
-
-    public void setContents(List<Content> contents) {
-        this.contents = contents;
-    }
 }
