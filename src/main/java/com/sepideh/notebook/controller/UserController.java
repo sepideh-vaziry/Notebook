@@ -2,6 +2,8 @@ package com.sepideh.notebook.controller;
 
 import com.sepideh.notebook.domain.User;
 import com.sepideh.notebook.dto.response.GenericRestResponse;
+import com.sepideh.notebook.dto.user.UserListDto;
+import com.sepideh.notebook.mapper.UserMapper;
 import com.sepideh.notebook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,11 +19,13 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
     // Constructor *****************************************************************************************************
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserMapper userMapper) {
         this.userService = userService;
+        this.userMapper = userMapper;
     }
 
     //******************************************************************************************************************
@@ -32,7 +36,7 @@ public class UserController {
 
     //******************************************************************************************************************
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ResponseEntity<GenericRestResponse<List<User>>> getAllUser(
+    public ResponseEntity<GenericRestResponse<List<UserListDto>>> getAllUser(
             @RequestParam("pageSize") int pageSize,
             @RequestParam("pageNumber") int pageNumber
     ) {
@@ -40,7 +44,7 @@ public class UserController {
 
         return new ResponseEntity<>(
                 new GenericRestResponse<>(
-                    page.getContent(),
+                    userMapper.toDto(page.getContent()),
                     HttpStatus.OK.value(),
                     pageSize,
                     pageNumber,
