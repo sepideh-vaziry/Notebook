@@ -28,7 +28,7 @@ public class UserController {
         this.userMapper = userMapper;
     }
 
-    //******************************************************************************************************************
+    //***********************************************************************p*******************************************
     @RequestMapping(value = {"/register", "/register/"}, method = RequestMethod.POST)
     public User registerUser(@RequestBody User user) {
         return userService.registerUser(user);
