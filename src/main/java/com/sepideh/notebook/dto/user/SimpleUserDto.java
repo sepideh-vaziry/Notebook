@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserListDto implements Serializable {
+public class SimpleUserDto implements Serializable {
 
     private Long id;
     private String username;

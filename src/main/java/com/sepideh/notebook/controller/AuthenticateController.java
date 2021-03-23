@@ -1,7 +1,7 @@
 package com.sepideh.notebook.controller;
 
-import com.sepideh.notebook.domain.JwtAuth;
-import com.sepideh.notebook.jwt.JwtUtil;
+import com.sepideh.notebook.model.JwtAuth;
+import com.sepideh.notebook.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

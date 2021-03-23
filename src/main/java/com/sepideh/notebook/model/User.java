@@ -1,4 +1,4 @@
-package com.sepideh.notebook.domain;
+package com.sepideh.notebook.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -13,6 +13,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -31,6 +33,8 @@ public class User implements Serializable, UserDetails {
     private Long id;
 
     @Column(unique = true)
+    @NotBlank
+    @NotNull
     private String username;
     private String password;
 

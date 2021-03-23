@@ -1,4 +1,4 @@
-package com.sepideh.notebook.domain;
+package com.sepideh.notebook.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

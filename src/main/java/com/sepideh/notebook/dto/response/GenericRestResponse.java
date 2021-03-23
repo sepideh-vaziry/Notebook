@@ -13,6 +13,7 @@ public class GenericRestResponse<T> {
 
     private T data;
     private String message;
+    private String errorMessage;
     private int status;
 
     private int pageSize;
@@ -27,6 +28,12 @@ public class GenericRestResponse<T> {
         this.data = data;
         this.message = message;
         this.status = status;
+    }
+
+    public GenericRestResponse(int status, String message, String errorMessage) {
+        this.status = status;
+        this.message = message;
+        this.errorMessage = errorMessage;
     }
 
     public GenericRestResponse(T data, int status, int pageSize, int pageNumber, int totalPages, Long count) {

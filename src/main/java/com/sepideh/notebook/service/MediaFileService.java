@@ -1,6 +1,6 @@
 package com.sepideh.notebook.service;
 
-import com.sepideh.notebook.domain.MediaFile;
+import com.sepideh.notebook.model.MediaFile;
 import com.sepideh.notebook.repository.MediaFileRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;

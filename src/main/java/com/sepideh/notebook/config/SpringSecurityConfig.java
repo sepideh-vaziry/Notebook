@@ -1,7 +1,7 @@
 package com.sepideh.notebook.config;
 
-import com.sepideh.notebook.jwt.JwtAuthenticationEntryPoint;
-import com.sepideh.notebook.jwt.JwtRequestFilter;
+import com.sepideh.notebook.security.JwtAuthenticationEntryPoint;
+import com.sepideh.notebook.security.JwtRequestFilter;
 import com.sepideh.notebook.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

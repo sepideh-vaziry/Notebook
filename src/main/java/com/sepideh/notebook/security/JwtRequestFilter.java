@@ -1,6 +1,6 @@
-package com.sepideh.notebook.jwt;
+package com.sepideh.notebook.security;
 
-import com.sepideh.notebook.domain.User;
+import com.sepideh.notebook.model.User;
 import com.sepideh.notebook.service.CustomUserDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;

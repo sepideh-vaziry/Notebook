@@ -1,6 +1,6 @@
 package com.sepideh.notebook.controller;
 
-import com.sepideh.notebook.domain.Content;
+import com.sepideh.notebook.model.Content;
 import com.sepideh.notebook.service.ContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;

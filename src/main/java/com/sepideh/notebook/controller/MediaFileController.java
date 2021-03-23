@@ -1,6 +1,6 @@
 package com.sepideh.notebook.controller;
 
-import com.sepideh.notebook.domain.MediaFile;
+import com.sepideh.notebook.model.MediaFile;
 import com.sepideh.notebook.service.MediaFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

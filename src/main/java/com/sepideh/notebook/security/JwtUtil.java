@@ -1,4 +1,4 @@
-package com.sepideh.notebook.jwt;
+package com.sepideh.notebook.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

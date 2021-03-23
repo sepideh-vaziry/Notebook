@@ -1,6 +1,6 @@
 package com.sepideh.notebook.controller;
 
-import com.sepideh.notebook.domain.Category;
+import com.sepideh.notebook.model.Category;
 import com.sepideh.notebook.service.CategoryService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
