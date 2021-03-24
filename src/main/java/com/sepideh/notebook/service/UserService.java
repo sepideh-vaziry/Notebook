@@ -63,6 +63,11 @@ public class UserService {
     }
 
     //******************************************************************************************************************
+    public Page<User> getAllUser(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
+    //******************************************************************************************************************
     public boolean delete(long id) throws DataAccessException {
         User user = findById(id);
         user.setEnabled(false);
@@ -71,8 +76,4 @@ public class UserService {
         return true;
     }
 
-    //******************************************************************************************************************
-    public Page<User> getAllUser(Pageable pageable) {
-        return userRepository.findAll(pageable);
-    }
 }

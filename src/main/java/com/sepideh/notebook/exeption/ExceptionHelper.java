@@ -42,21 +42,21 @@ public class ExceptionHelper {
                 HttpStatus.BAD_REQUEST.value(),
                 "Request failed", ex.getMessage()
             ),
-            HttpStatus.BAD_REQUEST
+            HttpStatus.OK
         );
     }
 
     // Data Access Exception *******************************************************************************************
     @ExceptionHandler(value = { DataAccessException.class })
     public ResponseEntity<Object> handleDataAccessException(Exception ex) {
-        logger.error("Exception: ", ex.getMessage());
+        logger.error("Exception: ", ex);
 
         return new ResponseEntity<>(
             new GenericRestResponse<>(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "Request failed", ex.getMessage()
             ),
-            HttpStatus.INTERNAL_SERVER_ERROR
+            HttpStatus.OK
         );
     }
 
@@ -68,9 +68,9 @@ public class ExceptionHelper {
         return new ResponseEntity<>(
             new GenericRestResponse<>(
                 HttpStatus.NOT_FOUND.value(),
-                "Request failed", ex.getMessage()
+                "Entry not found", ex.getMessage()
             ),
-            HttpStatus.NOT_FOUND
+            HttpStatus.OK
         );
     }
 
@@ -84,7 +84,7 @@ public class ExceptionHelper {
                 HttpStatus.BAD_REQUEST.value(),
                 "Request failed", ex.getMessage()
             ),
-            HttpStatus.BAD_REQUEST
+            HttpStatus.OK
         );
     }
 
@@ -98,7 +98,7 @@ public class ExceptionHelper {
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "Request failed", ex.getMessage()
             ),
-            HttpStatus.INTERNAL_SERVER_ERROR
+            HttpStatus.OK
         );
     }
 

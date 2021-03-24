@@ -1,6 +1,7 @@
 package com.sepideh.notebook.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,8 +11,10 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -25,7 +28,11 @@ public class Content {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Column(length = 32)
     private String title;
+
+    @Column(length = 250)
     private String description;
 
     @CreationTimestamp
@@ -37,10 +44,15 @@ public class Content {
     private Timestamp updatedAt;
 
     @ManyToOne
+    @JsonIgnoreProperties("contents")
     private User user;
 
-    @ManyToMany
-    @JoinTable(name = "content_category")
-    private List<Category> categories;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "content_category",
+        joinColumns = @JoinColumn(name = "content_id"),
+        inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<Category> categories;
 
 }

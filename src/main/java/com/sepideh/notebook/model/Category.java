@@ -16,17 +16,23 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Content.class)
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Content.class)
 public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
     @NotBlank
+    @Column(unique = true)
     private String title;
 
-    @ManyToMany(mappedBy = "categories")
-    private List<Content> contents;
+//    @ManyToMany(mappedBy = "categories", fetch = FetchType.EAGER)
+//    private List<Content> contents;
+
+    // Constructor *****************************************************************************************************
+    public Category(long id) {
+        this.id = id;
+    }
+
 }

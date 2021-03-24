@@ -1,6 +1,7 @@
 package com.sepideh.notebook.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.sepideh.notebook.enums.Role;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -32,9 +32,8 @@ public class User implements Serializable, UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
     @NotBlank
-    @NotNull
+    @Column(unique = true)
     private String username;
     private String password;
 
@@ -47,6 +46,7 @@ public class User implements Serializable, UserDetails {
     private Timestamp updatedAt;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnoreProperties("user")
     private List<Content> contents;
 
     private boolean enabled = true;

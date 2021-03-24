@@ -16,10 +16,10 @@ public class GenericRestResponse<T> {
     private String errorMessage;
     private int status;
 
-    private int pageSize;
-    private int pageNumber;
-    private int totalPages;
-    private long count;
+    private Integer pageSize;
+    private Integer pageNumber;
+    private Integer totalPages;
+    private Long count;
 
     // Constructor *****************************************************************************************************
     public GenericRestResponse() { }
