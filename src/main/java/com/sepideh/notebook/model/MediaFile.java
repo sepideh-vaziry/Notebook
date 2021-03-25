@@ -24,11 +24,8 @@ public class MediaFile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 128)
     private String path;
-
-    @Transient
-    @JsonIgnore
-    private MultipartFile file;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
