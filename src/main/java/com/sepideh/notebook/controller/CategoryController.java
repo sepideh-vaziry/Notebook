@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -23,7 +24,9 @@ public class CategoryController {
 
     //******************************************************************************************************************
     @RequestMapping(value = {"", "/"}, method = RequestMethod.POST)
-    public ResponseEntity<GenericRestResponse<CategoryDto>> createCategory(@RequestBody CategoryDto category) {
+    public ResponseEntity<GenericRestResponse<CategoryDto>> createCategory(
+        @RequestBody @Valid CategoryDto category
+    ) {
         return new ResponseEntity<>(
             new GenericRestResponse<>(
                 categoryService.createCategory(category),
@@ -37,7 +40,7 @@ public class CategoryController {
     //******************************************************************************************************************
     @RequestMapping(value = {"", "/"}, method = RequestMethod.PUT)
     public ResponseEntity<GenericRestResponse<CategoryDto>> updateCategory(
-        @RequestBody CategoryDto category
+        @RequestBody @Valid CategoryDto category
     ) {
         return new ResponseEntity<>(
             new GenericRestResponse<>(

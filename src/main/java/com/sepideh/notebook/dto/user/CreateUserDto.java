@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -14,6 +15,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class CreateUserDto implements Serializable {
 
+    @NotBlank
     private String username;
     private String password;
     private Timestamp createdAt;

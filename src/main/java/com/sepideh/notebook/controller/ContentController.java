@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -31,7 +32,9 @@ public class ContentController {
 
     //******************************************************************************************************************
     @RequestMapping(value = {"", "/"}, method = RequestMethod.POST)
-    public ResponseEntity<GenericRestResponse<Content>> createContent(@RequestBody ContentDto contentDto) {
+    public ResponseEntity<GenericRestResponse<Content>> createContent(
+        @RequestBody @Valid ContentDto contentDto
+    ) {
         return new ResponseEntity<>(
             new GenericRestResponse<>(
                 contentService.createContent(contentDto),
@@ -44,7 +47,9 @@ public class ContentController {
 
     //******************************************************************************************************************
     @RequestMapping(value = {"", "/"}, method = RequestMethod.PUT)
-    public ResponseEntity<GenericRestResponse<Content>> updateContent(@RequestBody ContentDto contentDto) {
+    public ResponseEntity<GenericRestResponse<Content>> updateContent(
+        @RequestBody @Valid ContentDto contentDto
+    ) {
         return new ResponseEntity<>(
             new GenericRestResponse<>(
                 contentService.updateContent(contentDto),

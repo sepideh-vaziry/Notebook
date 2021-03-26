@@ -1,17 +1,24 @@
 package com.sepideh.notebook.exeption;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sepideh.notebook.dto.response.GenericRestResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 @ControllerAdvice
 public class ExceptionHelper {
@@ -26,7 +33,8 @@ public class ExceptionHelper {
         return new ResponseEntity<>(
             new GenericRestResponse<>(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Request failed", ex.getMessage()
+                "Request failed",
+                ex.getMessage()
             ),
             HttpStatus.INTERNAL_SERVER_ERROR
         );
@@ -35,12 +43,13 @@ public class ExceptionHelper {
     // Illegal Exception ***********************************************************************************************
     @ExceptionHandler(value = { IllegalArgumentException.class, IllegalStateException.class })
     public ResponseEntity<Object> handleIllegalArgumentException(Exception ex) {
-        logger.error("Exception: ", ex.getMessage());
+        logger.error(ex.getMessage());
 
         return new ResponseEntity<>(
             new GenericRestResponse<>(
                 HttpStatus.BAD_REQUEST.value(),
-                "Request failed", ex.getMessage()
+                "Request failed",
+                ex.getMessage()
             ),
             HttpStatus.OK
         );
@@ -48,13 +57,19 @@ public class ExceptionHelper {
 
     // Data Access Exception *******************************************************************************************
     @ExceptionHandler(value = { DataAccessException.class })
-    public ResponseEntity<Object> handleDataAccessException(Exception ex) {
-        logger.error("Exception: ", ex);
+    public ResponseEntity<Object> handleDataAccessException(DataAccessException ex) {
+        logger.error(ex.getCause().getMessage());
+
+        String errorMessage = ex.getMostSpecificCause().getMessage();
+        if (errorMessage == null) {
+            errorMessage = ex.getMessage();
+        }
 
         return new ResponseEntity<>(
             new GenericRestResponse<>(
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Request failed", ex.getMessage()
+                HttpStatus.BAD_REQUEST.value(),
+                "Request failed",
+                ex.getMostSpecificCause().getMessage()
             ),
             HttpStatus.OK
         );
@@ -63,12 +78,13 @@ public class ExceptionHelper {
     // Entity Not Found Exception **************************************************************************************
     @ExceptionHandler(value = { EntityNotFoundException.class })
     public ResponseEntity<Object> handleEntityNotFoundException(Exception ex) {
-        logger.error("Exception: ", ex.getMessage());
+        logger.error(ex.getMessage());
 
         return new ResponseEntity<>(
             new GenericRestResponse<>(
                 HttpStatus.NOT_FOUND.value(),
-                "Entry not found", ex.getMessage()
+                "Entry not found",
+                ex.getMessage()
             ),
             HttpStatus.OK
         );
@@ -77,12 +93,13 @@ public class ExceptionHelper {
     // Unsupported Encoding Exception **********************************************************************************
     @ExceptionHandler(value = { UnsupportedEncodingException.class })
     public ResponseEntity<Object> handleUnsupportedEncodingException(Exception ex) {
-        logger.error("Exception: ", ex.getMessage());
+        logger.error(ex.getMessage());
 
         return new ResponseEntity<>(
             new GenericRestResponse<>(
                 HttpStatus.BAD_REQUEST.value(),
-                "Request failed", ex.getMessage()
+                "Request failed",
+                ex.getMessage()
             ),
             HttpStatus.OK
         );
@@ -91,12 +108,44 @@ public class ExceptionHelper {
     // IO Exception ****************************************************************************************************
     @ExceptionHandler(value = { IOException.class })
     public ResponseEntity<Object> handleIOException(Exception ex) {
-        logger.error("Exception: ", ex.getMessage());
+        logger.error(ex.getMessage());
 
         return new ResponseEntity<>(
             new GenericRestResponse<>(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Request failed", ex.getMessage()
+                "Request failed",
+                ex.getMessage()
+            ),
+            HttpStatus.OK
+        );
+    }
+
+    //******************************************************************************************************************
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Object> handleValidationExceptions(
+        MethodArgumentNotValidException ex
+    ) {
+        Map<String, String> errorMap = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errorMap.put(fieldName, errorMessage);
+        });
+
+        String json = null;
+        try {
+            json = new ObjectMapper().writeValueAsString(errorMap);
+        }
+        catch (JsonProcessingException e) {
+            System.out.println(e);
+        }
+
+        return new ResponseEntity<>(
+            new GenericRestResponse<>(
+                HttpStatus.BAD_REQUEST.value(),
+                "Request failed",
+                json
             ),
             HttpStatus.OK
         );
