@@ -5,6 +5,9 @@ import com.sepideh.notebook.mapper.ContentMapper;
 import com.sepideh.notebook.model.Content;
 import com.sepideh.notebook.repository.ContentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +19,8 @@ import java.util.List;
 
 @Service
 public class ContentService {
+
+    private final static String CONTENT_CACHE_VALUE = "ContentCache";
 
     private final ContentRepository contentRepository;
     private final ContentMapper contentMapper;
@@ -36,6 +41,7 @@ public class ContentService {
 
     //******************************************************************************************************************
     @Transactional
+    @CachePut(value = CONTENT_CACHE_VALUE, key = "'ContentId='.concat(#contentDto.id)")
     public Content updateContent(ContentDto contentDto) {
         Content content = findById(contentDto.getId());
 
@@ -43,6 +49,7 @@ public class ContentService {
     }
 
     //******************************************************************************************************************
+    @Cacheable(value = CONTENT_CACHE_VALUE, key = "'ContentId='.concat(#id)")
     public Content findById(long id) throws DataAccessException {
         return contentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
@@ -58,6 +65,7 @@ public class ContentService {
     }
 
     //******************************************************************************************************************
+    @CacheEvict(value = CONTENT_CACHE_VALUE, key = "'ContentId='.concat(#id)")
     public boolean deleteContent(long id) {
         Content content = findById(id);
         contentRepository.delete(content);

@@ -7,6 +7,9 @@ import com.sepideh.notebook.model.User;
 import com.sepideh.notebook.enums.Role;
 import com.sepideh.notebook.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +22,8 @@ import java.util.List;
 
 @Service
 public class UserService {
+
+    private final static String USER_CACHE_VALUE = "UserCache";
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -47,6 +52,7 @@ public class UserService {
     }
 
     //******************************************************************************************************************
+    @CachePut(value = USER_CACHE_VALUE, key = "'UserId='.concat(#userDto.id)")
     public User updateUser(SimpleUserDto userDto) throws DataAccessException {
         User user = findById(userDto.getId());
 
@@ -54,12 +60,9 @@ public class UserService {
     }
 
     //******************************************************************************************************************
+    @Cacheable(value = USER_CACHE_VALUE, key = "'UserId='.concat(#id)")
     public User findById(long id) throws DataAccessException {
         return userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-    }
-
-    public User findByUsername(String username) throws DataAccessException {
-        return userRepository.findByUsername(username);
     }
 
     //******************************************************************************************************************
@@ -68,6 +71,7 @@ public class UserService {
     }
 
     //******************************************************************************************************************
+    @CacheEvict(value = USER_CACHE_VALUE, key = "'UserId='.concat(#id)")
     public boolean delete(long id) throws DataAccessException {
         User user = findById(id);
         user.setEnabled(false);
