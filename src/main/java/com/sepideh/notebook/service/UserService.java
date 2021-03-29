@@ -13,6 +13,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,17 +26,33 @@ import java.util.List;
 public class UserService {
 
     private final static String USER_CACHE_VALUE = "UserCache";
+    private final static String HASH_NAME_FOR_USER_NAMES = "HashNameForUsername";
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
+    private final RedisTemplate<String, String> redisTemplate;
+    private final HashOperations<String, Long, String> hashOperations;
+
     // Constructor *****************************************************************************************************
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserMapper userMapper) {
+    public UserService(
+        UserRepository userRepository,
+        PasswordEncoder passwordEncoder,
+        UserMapper userMapper,
+        RedisTemplate<String, String> redisTemplate
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userMapper = userMapper;
+        this.redisTemplate = redisTemplate;
+        this.hashOperations = redisTemplate.opsForHash();
+
+        //Sample for put, get and delete from redis
+//        hashOperations.put(HASH_NAME_FOR_USER_NAMES, user.getId(), user.getUsername());
+//        hashOperations.get(HASH_NAME_FOR_USER_NAMES, user.getId());
+//        hashOperations.delete(HASH_NAME_FOR_USER_NAMES, user.getId());
     }
 
     //******************************************************************************************************************

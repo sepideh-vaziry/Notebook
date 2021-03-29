@@ -3,13 +3,14 @@ package com.sepideh.notebook.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.function.Function;
 
-@Service
+@Component
 public class JwtUtil {
 
     private final static String SECRET = "Va#Z*yxNdGN986D";
