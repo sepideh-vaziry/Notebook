@@ -3,8 +3,8 @@ package com.sepideh.notebook.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -13,7 +13,8 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    private final static String SECRET = "Va#Z*yxNdGN986D";
+    @Value("${project.jwt.secret}")
+    private String secret;
 
     //******************************************************************************************************************
     /**
@@ -31,7 +32,7 @@ public class JwtUtil {
                 .setSubject(username)
                 .setIssuedAt(currentDate)
                 .setExpiration(calendar.getTime())
-                .signWith(SignatureAlgorithm.HS256, SECRET)
+                .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
     }
 
@@ -80,7 +81,7 @@ public class JwtUtil {
      * Retrieve any information from token that requires the secret key
      */
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
 }
