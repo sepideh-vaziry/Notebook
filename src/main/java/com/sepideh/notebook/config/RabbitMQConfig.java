@@ -6,14 +6,14 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.MessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RabbitmqConfig {
+public class RabbitMQConfig {
 
     public static final String TOPIC_EXCHANGE_NAME = "exchangeNameTest";
     public static final String ROUTING_KEY_TEST = "routing.test.%s";
@@ -42,8 +42,8 @@ public class RabbitmqConfig {
     }
 
     //******************************************************************************************************************
-    @Bean
-    public ConnectionFactory createConnectionFactory() {
+    @Bean(name = "myProjectConnectionFactory")
+    public CachingConnectionFactory createConnectionFactory() {
         CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory("localhost");
         cachingConnectionFactory.setUsername("guest");
         cachingConnectionFactory.setPassword("guest");
@@ -53,10 +53,13 @@ public class RabbitmqConfig {
 
     //******************************************************************************************************************
     @Bean
-    public MessageListenerContainer createMessageListenerContainer() {
+    public MessageListenerContainer createMessageListenerContainer(
+        @Qualifier("myProjectConnectionFactory") CachingConnectionFactory cachingConnectionFactory,
+        Queue queue
+    ) {
         SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer();
-        simpleMessageListenerContainer.setConnectionFactory(createConnectionFactory());
-        simpleMessageListenerContainer.setQueues(createQueue());
+        simpleMessageListenerContainer.setConnectionFactory(cachingConnectionFactory);
+        simpleMessageListenerContainer.setQueues(queue);
         simpleMessageListenerContainer.setMessageListener(new RabbitMQMessageListener());
 
         return simpleMessageListenerContainer;

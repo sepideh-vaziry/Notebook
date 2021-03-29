@@ -1,6 +1,6 @@
 package com.sepideh.notebook.controller;
 
-import com.sepideh.notebook.config.RabbitmqConfig;
+import com.sepideh.notebook.config.RabbitMQConfig;
 import com.sepideh.notebook.dto.response.GenericRestResponse;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
@@ -25,8 +25,8 @@ public class MainController {
     public ResponseEntity<GenericRestResponse<Boolean>> testRabbitMQ() {
 
         rabbitTemplate.convertAndSend(
-            RabbitmqConfig.TOPIC_EXCHANGE_NAME,
-            String.format(RabbitmqConfig.ROUTING_KEY_TEST, "first"),
+            RabbitMQConfig.TOPIC_EXCHANGE_NAME,
+            String.format(RabbitMQConfig.ROUTING_KEY_TEST, "first"),
             "Hello from RabbitMQ!"
         );
 
