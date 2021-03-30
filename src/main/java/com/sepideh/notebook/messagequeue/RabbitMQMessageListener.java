@@ -1,4 +1,4 @@
-package com.sepideh.notebook.rabbitmqtest;
+package com.sepideh.notebook.messagequeue;
 
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;

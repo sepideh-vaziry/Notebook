@@ -1,6 +1,6 @@
 package com.sepideh.notebook.config;
 
-import com.sepideh.notebook.rabbitmqtest.RabbitMQMessageListener;
+import com.sepideh.notebook.messagequeue.RabbitMQMessageListener;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;

@@ -20,7 +20,8 @@ import java.util.Map;
 @Configuration
 public class KafkaConfig {
 
-    private static final String TOPIC_NAME_TEST = "topicTest";
+    public static final String TOPIC_NAME_TEST = "topicTest";
+    public static final String GROUP_ID = "groupTest";
 
     @Value(value = "${project.kafka.server.url}")
     private String bootstrapAddress;
@@ -34,7 +35,7 @@ public class KafkaConfig {
     }
 
     @Bean
-    public NewTopic topic1() {
+    public NewTopic topicTest() {
         return new NewTopic(TOPIC_NAME_TEST, 1, (short) 1);
     }
 
@@ -47,12 +48,10 @@ public class KafkaConfig {
             ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
             bootstrapAddress
         );
-
         configProps.put(
             ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
             StringSerializer.class
         );
-
         configProps.put(
             ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
             StringSerializer.class
@@ -70,18 +69,24 @@ public class KafkaConfig {
     @Bean
     public ConsumerFactory<String, String> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
+
         props.put(
             ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
-            bootstrapAddress);
-//        props.put(
-//            ConsumerConfig.GROUP_ID_CONFIG,
-//            groupId);
+            bootstrapAddress
+        );
+        props.put(
+            ConsumerConfig.GROUP_ID_CONFIG,
+            GROUP_ID
+        );
         props.put(
             ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
-            StringDeserializer.class);
+            StringDeserializer.class
+        );
         props.put(
             ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-            StringDeserializer.class);
+            StringDeserializer.class
+        );
+
         return new DefaultKafkaConsumerFactory<>(props);
     }
 
