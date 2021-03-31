@@ -17,7 +17,7 @@ public class RabbitMQMessageListener implements MessageListener {
             System.out.println(e);
         }
 
-        System.out.println("End");
+        System.out.println("End RabbitMQ listener");
     }
 
 }
