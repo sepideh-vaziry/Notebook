@@ -47,6 +47,7 @@ public class MainController {
     //******************************************************************************************************************
     @RequestMapping(value = "/test-kafka", method = RequestMethod.POST)
     public ResponseEntity<GenericRestResponse<Boolean>> testKafka() {
+        System.out.println("test kafka");
 
         kafkaTemplate.send(KafkaConfig.TOPIC_NAME_TEST, "Hello from Kafka!");
 

@@ -2,9 +2,11 @@ package com.sepideh.notebook.messagequeue;
 
 import com.sepideh.notebook.config.KafkaConfig;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
+@Component
 public class KafkaMessageListener {
 
     @KafkaListener(topics = KafkaConfig.TOPIC_NAME_TEST, groupId = KafkaConfig.GROUP_ID)
