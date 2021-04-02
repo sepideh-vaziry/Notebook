@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -45,9 +46,9 @@ public class User implements Serializable, UserDetails {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonIgnoreProperties("user")
-    private List<Content> contents;
+    private Set<Content> contents;
 
     private boolean enabled = true;
 
