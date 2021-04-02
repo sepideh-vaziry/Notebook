@@ -45,7 +45,19 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/index", "/css/**", "/js/**", "/img/**", "/api/auth", "/api/user/register")
+                .antMatchers(
+                    "/",
+                    "/index",
+                    "/css/**",
+                    "/js/**",
+                    "/img/**",
+                    "/api/auth",
+                    "/api/user/register",
+                    "/swagger-ui.html",
+                    "/webjars/**",
+                    "/swagger-resources/**",
+                    "/v2/api-docs/**"
+                )
                 .permitAll()
 //                .and()
 //                .authorizeRequests()
