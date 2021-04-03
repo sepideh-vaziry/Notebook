@@ -1,6 +1,8 @@
 package com.sepideh.notebook.controller;
 
 import com.sepideh.notebook.dto.response.GenericRestResponse;
+import com.sepideh.notebook.exeption.TokenInvalidException;
+import com.sepideh.notebook.exeption.UsernameOrPasswordNotCorrectException;
 import com.sepideh.notebook.model.JwtAuth;
 import com.sepideh.notebook.security.JwtUtil;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -8,8 +10,8 @@ import io.jsonwebtoken.SignatureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,21 +37,7 @@ public class AuthenticateController {
     @PostMapping()
     public ResponseEntity<GenericRestResponse<JwtAuth>> login(@RequestBody JwtAuth auth) {
 
-        try {
-            authenticateCheck(auth.getUsername(), auth.getPassword());
-        }
-        catch (Exception e) {
-            System.out.println(e);
-
-            return new ResponseEntity<>(
-                new GenericRestResponse<>(
-                    HttpStatus.BAD_REQUEST.value(),
-                    "Username or password is correct",
-                    null
-                ),
-                HttpStatus.OK
-            );
-        }
+        authenticateCheck(auth.getUsername(), auth.getPassword());
 
         //Generate token and refresh token
         JwtAuth responseJwtAuth = new JwtAuth(
@@ -83,14 +71,7 @@ public class AuthenticateController {
 
         //Check token is valid or not
         if (username == null || jwtUtil.isTokenExpired(auth.getRefresh())) {
-            return new ResponseEntity<>(
-                new GenericRestResponse<>(
-                    HttpStatus.UNAUTHORIZED.value(),
-                    "Unauthorized",
-                    "Unauthorized"
-                ),
-                HttpStatus.UNAUTHORIZED
-            );
+            throw new TokenInvalidException();
         }
 
         //Generate token and refresh token
@@ -109,7 +90,12 @@ public class AuthenticateController {
 
     //******************************************************************************************************************
     private void authenticateCheck(String username, String password) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        }
+        catch (BadCredentialsException | InternalAuthenticationServiceException | UsernameNotFoundException e) {
+            throw new UsernameOrPasswordNotCorrectException();
+        }
     }
 
 }
