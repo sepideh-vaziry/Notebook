@@ -22,18 +22,33 @@ public class JwtUtil {
      * @param username
      * @return Jwt token
      */
-    public String generateToken(String username) {
+    public String getToken(String username) {
+        return generateToken(username, 1);
+    }
+
+    //******************************************************************************************************************
+    /**
+     * This method gets a username and generate a jwt token with an expiration date of two month.
+     * @param username
+     * @return Jwt token
+     */
+    public String getRefreshToken(String username) {
+        return generateToken(username, 2);
+    }
+
+    //******************************************************************************************************************
+    private String generateToken(String username, int numberOfMonthsUntilExpiration) {
         Date currentDate = new Date(System.currentTimeMillis());
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(currentDate);
-        calendar.add(Calendar.MONTH, 1);
+        calendar.add(Calendar.MONTH, numberOfMonthsUntilExpiration);
 
         return Jwts.builder()
-                .setSubject(username)
-                .setIssuedAt(currentDate)
-                .setExpiration(calendar.getTime())
-                .signWith(SignatureAlgorithm.HS256, secret)
-                .compact();
+            .setSubject(username)
+            .setIssuedAt(currentDate)
+            .setExpiration(calendar.getTime())
+            .signWith(SignatureAlgorithm.HS256, secret)
+            .compact();
     }
 
     //******************************************************************************************************************
@@ -50,7 +65,7 @@ public class JwtUtil {
     /**
      * check if the token has expired
      * @param token
-     * @return
+     * @return true if token has been expired otherwise false
      */
     public Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);

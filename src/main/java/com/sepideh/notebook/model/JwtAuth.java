@@ -19,15 +19,12 @@ public class JwtAuth implements Serializable {
     private String password;
 
     private String access;
+    private String refresh;
 
     // Constructor *****************************************************************************************************
     public JwtAuth(String username, String password) {
         this.username = username;
         this.password = password;
-    }
-
-    public JwtAuth(String access) {
-        this.access = access;
     }
 
 }
