@@ -1,6 +1,7 @@
 package com.sepideh.notebook.config;
 
 import com.sepideh.notebook.messagequeue.RabbitMQMessageListener;
+import com.sepideh.notebook.messagequeue.RabbitMQUserConsumer;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
@@ -8,6 +9,7 @@ import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.listener.MessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,14 +57,22 @@ public class RabbitMQConfig {
     @Bean
     public MessageListenerContainer createMessageListenerContainer(
         @Qualifier("myProjectConnectionFactory") CachingConnectionFactory cachingConnectionFactory,
-        Queue queue
+        Queue queue,
+        MessageListenerAdapter messageListenerAdapter
     ) {
         SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer();
         simpleMessageListenerContainer.setConnectionFactory(cachingConnectionFactory);
         simpleMessageListenerContainer.setQueues(queue);
-        simpleMessageListenerContainer.setMessageListener(new RabbitMQMessageListener());
+//        simpleMessageListenerContainer.setMessageListener(new RabbitMQMessageListener());
+        simpleMessageListenerContainer.setMessageListener(messageListenerAdapter);
 
         return simpleMessageListenerContainer;
+    }
+
+    //******************************************************************************************************************
+    @Bean
+    public MessageListenerAdapter listenerAdapter(RabbitMQUserConsumer rabbitMQUserConsumer) {
+        return new MessageListenerAdapter(rabbitMQUserConsumer, "handleMessage");
     }
 
 }

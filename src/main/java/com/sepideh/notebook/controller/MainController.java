@@ -44,11 +44,12 @@ public class MainController {
     //******************************************************************************************************************
     @RequestMapping(value = "/test-rabbitmq", method = RequestMethod.POST)
     public ResponseEntity<GenericRestResponse<Boolean>> testRabbitMQ() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         rabbitTemplate.convertAndSend(
             RabbitMQConfig.TOPIC_EXCHANGE_NAME,
             String.format(RabbitMQConfig.ROUTING_KEY_TEST, "first"),
-            "Hello from RabbitMQ!"
+            user
         );
 
         return new ResponseEntity<>(
