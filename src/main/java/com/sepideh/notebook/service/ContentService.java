@@ -1,6 +1,8 @@
 package com.sepideh.notebook.service;
 
+import com.sepideh.notebook.DomainEventPublisher;
 import com.sepideh.notebook.dto.content.ContentDto;
+import com.sepideh.notebook.events.ContentCreatedEvent;
 import com.sepideh.notebook.mapper.ContentMapper;
 import com.sepideh.notebook.model.Content;
 import com.sepideh.notebook.repository.ContentRepository;
@@ -25,18 +27,30 @@ public class ContentService {
     private final ContentRepository contentRepository;
     private final ContentMapper contentMapper;
 
+    private final DomainEventPublisher domainEventPublisher;
+
     // Constructor *****************************************************************************************************
     @Autowired
-    public ContentService(ContentRepository contentRepository, ContentMapper contentMapper) {
+    public ContentService(
+        ContentRepository contentRepository,
+        ContentMapper contentMapper,
+        DomainEventPublisher domainEventPublisher
+    ) {
         this.contentRepository = contentRepository;
         this.contentMapper = contentMapper;
+        this.domainEventPublisher = domainEventPublisher;
     }
 
     //******************************************************************************************************************
     @Transactional
     public Content createContent(ContentDto contentDto) {
         contentDto.setId(null);
-        return contentRepository.save(contentMapper.toModel(contentDto));
+        Content content = contentRepository.save(contentMapper.toModel(contentDto));
+
+        ContentCreatedEvent event = new ContentCreatedEvent(content);
+        domainEventPublisher.publish(event);
+
+        return content;
     }
 
     //******************************************************************************************************************

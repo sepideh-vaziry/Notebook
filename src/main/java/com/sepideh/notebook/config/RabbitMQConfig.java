@@ -20,7 +20,7 @@ public class RabbitMQConfig {
     public static final String TOPIC_EXCHANGE_NAME = "exchangeNameTest";
     public static final String ROUTING_KEY_TEST = "routing.test.%s";
 
-    private static final String QUEUE_NAME = "myQueue";
+    public static final String QUEUE_NAME = "myQueue";
 
     //******************************************************************************************************************
     @Bean
@@ -28,51 +28,51 @@ public class RabbitMQConfig {
         return new Queue(QUEUE_NAME, true);
     }
 
-    //******************************************************************************************************************
-    @Bean
-    public TopicExchange createTopicExchange() {
-        return new TopicExchange(TOPIC_EXCHANGE_NAME);
-    }
-
-    //******************************************************************************************************************
-    @Bean
-    public Binding binding(Queue queue, TopicExchange topicExchange) {
-        return BindingBuilder
-            .bind(queue)
-            .to(topicExchange)
-            .with(String.format(ROUTING_KEY_TEST, "#"));
-    }
-
-    //******************************************************************************************************************
-    @Bean(name = "myProjectConnectionFactory")
-    public CachingConnectionFactory createConnectionFactory() {
-        CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory("localhost");
-        cachingConnectionFactory.setUsername("guest");
-        cachingConnectionFactory.setPassword("guest");
-
-        return cachingConnectionFactory;
-    }
-
-    //******************************************************************************************************************
-    @Bean
-    public MessageListenerContainer createMessageListenerContainer(
-        @Qualifier("myProjectConnectionFactory") CachingConnectionFactory cachingConnectionFactory,
-        Queue queue,
-        MessageListenerAdapter messageListenerAdapter
-    ) {
-        SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer();
-        simpleMessageListenerContainer.setConnectionFactory(cachingConnectionFactory);
-        simpleMessageListenerContainer.setQueues(queue);
-//        simpleMessageListenerContainer.setMessageListener(new RabbitMQMessageListener());
-        simpleMessageListenerContainer.setMessageListener(messageListenerAdapter);
-
-        return simpleMessageListenerContainer;
-    }
-
-    //******************************************************************************************************************
-    @Bean
-    public MessageListenerAdapter listenerAdapter(RabbitMQUserConsumer rabbitMQUserConsumer) {
-        return new MessageListenerAdapter(rabbitMQUserConsumer, "handleMessage");
-    }
+//    //******************************************************************************************************************
+//    @Bean
+//    public TopicExchange createTopicExchange() {
+//        return new TopicExchange(TOPIC_EXCHANGE_NAME);
+//    }
+//
+//    //******************************************************************************************************************
+//    @Bean
+//    public Binding binding(Queue queue, TopicExchange topicExchange) {
+//        return BindingBuilder
+//            .bind(queue)
+//            .to(topicExchange)
+//            .with(String.format(ROUTING_KEY_TEST, "#"));
+//    }
+//
+//    //******************************************************************************************************************
+//    @Bean(name = "myProjectConnectionFactory")
+//    public CachingConnectionFactory createConnectionFactory() {
+//        CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory("localhost");
+//        cachingConnectionFactory.setUsername("guest");
+//        cachingConnectionFactory.setPassword("guest");
+//
+//        return cachingConnectionFactory;
+//    }
+//
+//    //******************************************************************************************************************
+//    @Bean
+//    public MessageListenerContainer createMessageListenerContainer(
+//        @Qualifier("myProjectConnectionFactory") CachingConnectionFactory cachingConnectionFactory,
+//        Queue queue,
+//        MessageListenerAdapter messageListenerAdapter
+//    ) {
+//        SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer();
+//        simpleMessageListenerContainer.setConnectionFactory(cachingConnectionFactory);
+//        simpleMessageListenerContainer.setQueues(queue);
+////        simpleMessageListenerContainer.setMessageListener(new RabbitMQMessageListener());
+//        simpleMessageListenerContainer.setMessageListener(messageListenerAdapter);
+//
+//        return simpleMessageListenerContainer;
+//    }
+//
+//    //******************************************************************************************************************
+//    @Bean
+//    public MessageListenerAdapter listenerAdapter(RabbitMQUserConsumer rabbitMQUserConsumer) {
+//        return new MessageListenerAdapter(rabbitMQUserConsumer, "handleMessage");
+//    }
 
 }
