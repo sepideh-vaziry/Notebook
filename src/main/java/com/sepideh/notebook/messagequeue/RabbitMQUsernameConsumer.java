@@ -1,7 +1,6 @@
 package com.sepideh.notebook.messagequeue;
 
 import com.sepideh.notebook.config.RabbitMQConfig;
-import com.sepideh.notebook.model.User;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -9,12 +8,12 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.TimeUnit;
 
 @Component
-@RabbitListener(queues = RabbitMQConfig.QUEUE_NAME_USER)
-public class RabbitMQUserConsumer {
+@RabbitListener(queues = RabbitMQConfig.QUEUE_NAME_USERNAME)
+public class RabbitMQUsernameConsumer {
 
     @RabbitHandler
-    public void handleMessage(User user) {
-        System.out.println("User = "+user.getUsername());
+    public void handleMessage(String username) {
+        System.out.println("Username = "+username);
 
         try {
             TimeUnit.SECONDS.sleep(10);
@@ -22,7 +21,7 @@ public class RabbitMQUserConsumer {
             System.out.println(e);
         }
 
-        System.out.println("End RabbitMQ user listener");
+        System.out.println("End RabbitMQ username listener");
     }
 
 }

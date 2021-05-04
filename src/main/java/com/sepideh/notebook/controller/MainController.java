@@ -1,19 +1,13 @@
 package com.sepideh.notebook.controller;
 
-import com.sepideh.notebook.config.KafkaConfig;
 import com.sepideh.notebook.config.RabbitMQConfig;
 import com.sepideh.notebook.dto.response.GenericRestResponse;
-import com.sepideh.notebook.dto.user.SimpleUserDto;
 import com.sepideh.notebook.mapper.UserMapper;
 import com.sepideh.notebook.model.User;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.concurrent.ListenableFuture;
-import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,9 +41,21 @@ public class MainController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         rabbitTemplate.convertAndSend(
-            RabbitMQConfig.TOPIC_EXCHANGE_NAME,
-            String.format(RabbitMQConfig.ROUTING_KEY_TEST, "first"),
+            RabbitMQConfig.TOPIC_EXCHANGE_USER,
+            String.format(RabbitMQConfig.ROUTING_KEY_USER, user.getId()),
             user
+        );
+
+        rabbitTemplate.convertAndSend(
+            RabbitMQConfig.TOPIC_EXCHANGE_USER,
+            String.format(RabbitMQConfig.ROUTING_KEY_USERNAME, user.getUsername()),
+            user.getUsername()
+        );
+
+        rabbitTemplate.convertAndSend(
+            RabbitMQConfig.TOPIC_EXCHANGE_USER,
+            String.format(RabbitMQConfig.ROUTING_KEY_ID, user.getId()),
+            user.getId()
         );
 
         return new ResponseEntity<>(
