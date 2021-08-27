@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     private final CustomUserDetailsService userService;
@@ -23,7 +23,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     // Constructor *****************************************************************************************************
-    public SpringSecurityConfig(
+    public SecurityConfig(
             CustomUserDetailsService userService,
             JwtRequestFilter jwtRequestFilter,
             JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint
