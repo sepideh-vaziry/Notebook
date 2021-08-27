@@ -6,7 +6,6 @@ import com.sepideh.notebook.mapper.UserMapper;
 import com.sepideh.notebook.model.User;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,7 +36,7 @@ public class MainController {
 
     //******************************************************************************************************************
     @RequestMapping(value = "/test-rabbitmq", method = RequestMethod.POST)
-    public ResponseEntity<GenericRestResponse<Boolean>> testRabbitMQ() {
+    public GenericRestResponse<Boolean> testRabbitMQ() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         rabbitTemplate.convertAndSend(
@@ -58,19 +57,16 @@ public class MainController {
             user.getId()
         );
 
-        return new ResponseEntity<>(
-            new GenericRestResponse<>(
-                true,
-                "Success",
-                HttpStatus.OK.value()
-            ),
-            HttpStatus.OK
+        return new GenericRestResponse<>(
+            true,
+            "Success",
+            HttpStatus.OK.value()
         );
     }
 
     //******************************************************************************************************************
 //    @RequestMapping(value = "/test-kafka", method = RequestMethod.POST)
-//    public ResponseEntity<GenericRestResponse<Boolean>> testKafka() {
+//    public GenericRestResponse<Boolean> testKafka() {
 //        System.out.println("test kafka");
 //
 //        ListenableFuture<SendResult<String, String>> future = kafkaTemplate.send(
@@ -90,19 +86,16 @@ public class MainController {
 //            }
 //        });
 //
-//        return new ResponseEntity<>(
-//            new GenericRestResponse<>(
-//                true,
-//                "Success",
-//                HttpStatus.OK.value()
-//            ),
-//            HttpStatus.OK
-//        );
+//        return new GenericRestResponse<>(
+////                true,
+////                "Success",
+////                HttpStatus.OK.value()
+////            );
 //    }
 //
 //    //******************************************************************************************************************
 //    @RequestMapping(value = "/test-kafka-user", method = RequestMethod.POST)
-//    public ResponseEntity<GenericRestResponse<Boolean>> testKafkaUser() {
+//    public GenericRestResponse<Boolean> testKafkaUser() {
 //        System.out.println("test kafka user");
 //
 //        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -124,14 +117,11 @@ public class MainController {
 //            }
 //        });
 //
-//        return new ResponseEntity<>(
-//            new GenericRestResponse<>(
-//                true,
-//                "Success",
-//                HttpStatus.OK.value()
-//            ),
-//            HttpStatus.OK
-//        );
+//        return new GenericRestResponse<>(
+////                true,
+////                "Success",
+////                HttpStatus.OK.value()
+////            );
 //    }
 
 }

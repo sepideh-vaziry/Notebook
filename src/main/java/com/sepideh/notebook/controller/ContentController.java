@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,83 +31,66 @@ public class ContentController {
 
     //******************************************************************************************************************
     @RequestMapping(value = {"", "/"}, method = RequestMethod.POST)
-    public ResponseEntity<GenericRestResponse<Content>> createContent(
+    public GenericRestResponse<Content> createContent(
         @RequestBody @Valid ContentDto contentDto
     ) {
-        return new ResponseEntity<>(
-            new GenericRestResponse<>(
-                contentService.createContent(contentDto),
-                "Create successfully",
-                HttpStatus.CREATED.value()
-            ),
-            HttpStatus.CREATED
+        return new GenericRestResponse<>(
+            contentService.createContent(contentDto),
+            "Create successfully",
+            HttpStatus.CREATED.value()
         );
     }
 
     //******************************************************************************************************************
     @RequestMapping(value = {"", "/"}, method = RequestMethod.PUT)
-    public ResponseEntity<GenericRestResponse<Content>> updateContent(
+    public GenericRestResponse<Content> updateContent(
         @RequestBody @Valid ContentDto contentDto
     ) {
-        return new ResponseEntity<>(
-            new GenericRestResponse<>(
-                contentService.updateContent(contentDto),
-                "Update successfully",
-                HttpStatus.OK.value()
-            ),
-            HttpStatus.OK
+        return new GenericRestResponse<>(
+            contentService.updateContent(contentDto),
+            "Update successfully",
+            HttpStatus.OK.value()
         );
     }
 
     //******************************************************************************************************************
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<GenericRestResponse<Content>> updateContent(@PathVariable("id") long id) {
-        return new ResponseEntity<>(
-            new GenericRestResponse<>(
-                contentService.findById(id),
-                "Update successfully",
-                HttpStatus.OK.value()
-            ),
-            HttpStatus.OK
+    public GenericRestResponse<Content> updateContent(@PathVariable("id") long id) {
+        return new GenericRestResponse<>(
+            contentService.findById(id),
+            "Update successfully",
+            HttpStatus.OK.value()
         );
     }
 
     //******************************************************************************************************************
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
-    public ResponseEntity<GenericRestResponse<List<SimpleContentDto>>> getAllContent(
+    public GenericRestResponse<List<SimpleContentDto>> getAllContent(
         @RequestParam("pageSize") int pageSize,
         @RequestParam("pageNumber") int pageNumber
     ) {
         Page<Content> page = contentService.getAllContent(PageRequest.of(pageNumber, pageSize));
 
-        return new ResponseEntity<>(
-            new GenericRestResponse<>(
-                contentMapper.toDto(page.getContent()),
-                HttpStatus.OK.value(),
-                pageSize,
-                pageNumber,
-                page.getTotalPages(),
-                page.getTotalElements()
-            ),
-            HttpStatus.OK
+        return new GenericRestResponse<>(
+            contentMapper.toDto(page.getContent()),
+            HttpStatus.OK.value(),
+            pageSize,
+            pageNumber,
+            page.getTotalPages(),
+            page.getTotalElements()
         );
     }
 
     //******************************************************************************************************************
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<GenericRestResponse<Boolean>> delete(
+    public GenericRestResponse<Boolean> delete(
         @PathVariable("id") long id
     ) {
-
-        return new ResponseEntity<>(
-            new GenericRestResponse<>(
-                contentService.deleteContent(id),
-                "Delete successfully",
-                HttpStatus.OK.value()
-            ),
-            HttpStatus.OK
+        return new GenericRestResponse<>(
+            contentService.deleteContent(id),
+            "Delete successfully",
+            HttpStatus.OK.value()
         );
-
     }
 
 }

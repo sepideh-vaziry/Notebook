@@ -9,14 +9,12 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpClientErrorException;
 
 @RestController
 @RequestMapping(value = "api/auth")
@@ -35,7 +33,7 @@ public class AuthenticateController {
 
     //******************************************************************************************************************
     @PostMapping()
-    public ResponseEntity<GenericRestResponse<JwtAuth>> login(@RequestBody JwtAuth auth) {
+    public GenericRestResponse<JwtAuth> login(@RequestBody JwtAuth auth) {
 
         authenticateCheck(auth.getUsername(), auth.getPassword());
 
@@ -47,15 +45,12 @@ public class AuthenticateController {
             jwtUtil.getRefreshToken(auth.getUsername())
         );
 
-        return new ResponseEntity<>(
-            new GenericRestResponse<>(responseJwtAuth, "Success", HttpStatus.OK.value()),
-            HttpStatus.OK
-        );
+        return new GenericRestResponse<>(responseJwtAuth, "Success", HttpStatus.OK.value());
     }
 
     //******************************************************************************************************************
     @PostMapping("/refresh")
-    public ResponseEntity<GenericRestResponse<JwtAuth>> refresh(@RequestBody JwtAuth auth) {
+    public GenericRestResponse<JwtAuth> refresh(@RequestBody JwtAuth auth) {
         //Get username from refresh token
         String username = null;
 
@@ -82,10 +77,7 @@ public class AuthenticateController {
             jwtUtil.getRefreshToken(auth.getUsername())
         );
 
-        return new ResponseEntity<>(
-            new GenericRestResponse<>(responseJwtAuth, "Success", HttpStatus.OK.value()),
-            HttpStatus.OK
-        );
+        return new GenericRestResponse<>(responseJwtAuth, "Success", HttpStatus.OK.value());
     }
 
     //******************************************************************************************************************
